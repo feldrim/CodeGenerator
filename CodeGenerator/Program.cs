@@ -18,37 +18,25 @@ namespace CodeGenerator
          var xmlFileName = settings.Get("XmlFileName");
          var compressXml = bool.Parse(settings.Get("CompressXml"));
 
-         // JSON
-         var generateJson = bool.Parse(settings.Get("GenerateJson"));
-         var jsonFilePath = settings.Get("JsonPath");
-         var jsonFileName = settings.Get("JsonFileName");
-         var compressJson = bool.Parse(settings.Get("CompressJson"));
-
+         // File
+         var generateFile = bool.Parse(settings.Get("GenerateFile"));
 
          if (generateXml)
          {
             var xmlGenerator = new XmlGenerator(xmlFileName);
             xmlGenerator.Generate(sourcePath, xmlPath);
 
-            var fileGenerator = new FileGenerator();
-            fileGenerator.GenerateFromXml(Path.Combine(xmlPath, xmlFileName), targetPath);
-
-            if (!compressXml) return;
-            var compressor = new Compressor(Path.Combine(xmlPath, xmlFileName));
-            compressor.Compress();
+            if (compressXml)
+            {
+               var compressor = new Compressor(Path.Combine(xmlPath, xmlFileName));
+               compressor.Compress();
+            }
          }
 
-         if (generateJson)
+         if (generateFile)
          {
-            var jsonGenerator = new JsonGenerator(jsonFileName);
-            jsonGenerator.Generate(sourcePath, jsonFilePath);
-
             var fileGenerator = new FileGenerator();
-            fileGenerator.GenerateFromJson(Path.Combine(jsonFilePath, jsonFileName), targetPath);
-
-            if (!compressJson) return;
-            var compressor = new Compressor(Path.Combine(jsonFilePath, jsonFileName));
-            compressor.Compress();
+            fileGenerator.GenerateFromXml(Path.Combine(xmlPath, xmlFileName), targetPath);
          }
       }
    }

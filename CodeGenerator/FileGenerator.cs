@@ -20,12 +20,10 @@ namespace CodeGenerator
          var jsonDocument = JObject.Parse(File.ReadAllText(jsonPath));
          var rootNode = jsonDocument.First;
          GenerateFromJson(rootNode, outputPath);
-
       }
 
       private void GenerateFromJson(JToken node, string path)
       {
-
          if (node.HasValues) //directory
          {
             GenerateDirectoryFromJson(node, path);
@@ -57,7 +55,6 @@ namespace CodeGenerator
          var bytes = Convert.FromBase64String(base64);
 
          File.WriteAllBytes(newPath, bytes);
-
       }
 
       private void GenerateFromXml(XmlNode node, string path)
